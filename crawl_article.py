@@ -110,7 +110,7 @@ def crawlArticle(article):
 
 conn = sqlite3.connect('data/ptt.db')
 c = conn.cursor()
-board, cate = (sys.argv[1], sys.argv[2])
+board, cate = (sys.argv[1], u"徵求")
 Articles = getArticlesByDateRange()
 i=0
 for article in Articles:
