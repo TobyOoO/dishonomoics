@@ -1,4 +1,3 @@
-# coding=utf-8
 from time import sleep
 import json
 import requests
@@ -53,7 +52,7 @@ def crawlPage(page):
 		result = (
 			aid, board, title, url, push, author, published_date, category, page, is_reply, parent, crawled_date
 			)
-		c.execute('INSERT INTO Article_Directory VALUES (??,?,?,?,?,?,?,?,?,?,?)', result)
+		c.execute('INSERT INTO Article_Directory VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', result)
 		#print(result)
 		#print('Date: %s Category: %s Title: %s Author: %s Push: %d \n %s \n' % (published_date.strftime('%Y/%m/%d'), category, title, author, push, url) )
 	conn.commit()
