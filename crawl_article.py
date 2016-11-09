@@ -80,29 +80,31 @@ def crawlArticle(article):
 		print('Aid %d request failed\n' % article.Aid)
 		return
 
-	try:
-		dom = pq(res.content)
-		meta = dom('.article-meta-value')
-		update_date = datetime.now()
-		user_id = meta.eq(0).text().split(' (')[0]
-		user_nickname = meta.eq(0).text().split(' (')[1].replace(')', '')
-		published_timestamp = datetime.strptime(meta.eq(3).text(), '%c')
-		content = "".join(dom('#main-content').text().split(u'※ 發信站: 批踢踢實業坊(ptt.cc)')[0].split("\n")[1:])
-		img_list = map(lambda x: urllib.quote_plus(pq(x).attr.src), dom('#main-content').find('img'))
-		response_list = map(lambda x: {
-			'push_tag': pq(x).find('.push-tag').text().encode('utf-8'),
-			'user_id': pq(x).find('.push-userid').text().encode('utf-8'),
-			'content': pq(x).find('.push-content').text().encode('utf-8'),
-			'timestamp': '2016-'+pq(x).find('.push-ipdatetime').text().replace('/', '-')+':00'
-			#'timestamp': datetime.strptime('2016/'+pq(x).find('.push-ipdatetime').text(), '%Y/%m/%d %H:%M')
-			},dom('div.push'))
-		update_result = (update_date, content, json.dumps(response_list), published_timestamp, user_id, user_nickname, json.dumps(img_list), int(article.Aid))
+	#try:
+	dom = pq(res.content)
+	meta = dom('.article-meta-value')
+	update_date = datetime.now()
+	user_id = meta.eq(0).text().split(' (')[0]
+	user_nickname = meta.eq(0).text().split(' (')[1].replace(')', '')
+	published_timestamp = datetime.strptime(meta.eq(3).text(), '%c')
+	content = "".join(dom('#main-content').text().split(u'※ 發信站: 批踢踢實業坊(ptt.cc)')[0].split("\n")[1:])
+	img_list = map(lambda x: urllib.quote_plus(pq(x).attr.src), dom('#main-content').find('img'))
+	response_list = map(lambda x: {
+		'push_tag': pq(x).find('.push-tag').text().encode('utf-8'),
+		'user_id': pq(x).find('.push-userid').text().encode('utf-8'),
+		'content': pq(x).find('.push-content').text().encode('utf-8'),
+		'timestamp': '2016-'+pq(x).find('.push-ipdatetime').text().replace('/', '-')+':00'
+		#'timestamp': datetime.strptime('2016/'+pq(x).find('.push-ipdatetime').text(), '%Y/%m/%d %H:%M')
+		},dom('div.push'))
+	update_result = (update_date, content, json.dumps(response_list), published_timestamp, user_id, user_nickname, json.dumps(img_list), int(article.Aid))
 
-		#print('%s, %s, %s, %s, %s, %s' % (user_id, user_nickname, published_timestamp.strftime('%Y/%m/%d'), content, img_list, response_list))
-		article.updateArticle(update_result)
+	#print('%s, %s, %s, %s, %s, %s' % (user_id, user_nickname, published_timestamp.strftime('%Y/%m/%d'), content, img_list, response_list))
+	article.updateArticle(update_result)
+	'''
 	except:
 		print('Aid %d parse failed\n' % article.Aid)
 		return
+	'''
 
 conn = sqlite3.connect('data/ptt.db')
 c = conn.cursor()
