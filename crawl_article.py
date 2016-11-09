@@ -30,7 +30,8 @@ class Article:
 			self.Published_Timestamp,
 			self.User_ID,
 			self.User_Nickname,
-			self.Img_List
+			self.Img_List,
+			self.Std_Push
 		) = data
 
 	def updateArticle(self, updateData):
