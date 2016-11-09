@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from time import sleep
 import json
 import requests
@@ -96,7 +98,7 @@ def crawlArticle(article):
 		'timestamp': '2016-'+pq(x).find('.push-ipdatetime').text().replace('/', '-')+':00'
 		#'timestamp': datetime.strptime('2016/'+pq(x).find('.push-ipdatetime').text(), '%Y/%m/%d %H:%M')
 		},dom('div.push'))
-	update_result = (update_date, content, json.dumps(list(response_list)), published_timestamp, user_id, user_nickname, json.dumps(list(img_list)), int(article.Aid))
+	update_result = (update_date, content, json.dumps(response_list), published_timestamp, user_id, user_nickname, json.dumps(img_list), int(article.Aid))
 
 	#print('%s, %s, %s, %s, %s, %s' % (user_id, user_nickname, published_timestamp.strftime('%Y/%m/%d'), content, img_list, response_list))
 	article.updateArticle(update_result)
